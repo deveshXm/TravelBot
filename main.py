@@ -1,14 +1,15 @@
-import textbase
-from textbase.message import Message
 import os
-import openai
-import requests
-import hashlib
 import hmac
-from pyairtable.formulas import match
-from pyairtable import Api
 import json
+import openai
+import hashlib
+import textbase
+import requests
+
 from typing import List
+from pyairtable import Api
+from textbase.message import Message
+from pyairtable.formulas import match
 
 # Load your OpenAI API key
 # or from environment variable:
@@ -46,9 +47,7 @@ User Input: [Number of Travelers]
 
 Now that I have all the necessary details, I'll use this information to craft personalized recommendations for places to visit, modes of transportation, and much more. Let's make this trip extraordinary!"""
 
-# Get Hotels Details
-
-
+# Hash Creating Function
 def generate_hash(input_data):
     hmac_object = hmac.new(
         "most secret key ever".encode("utf-8"),
@@ -58,18 +57,18 @@ def generate_hash(input_data):
     return hmac_object.hexdigest()
 
 
+# Get Hotels Details
 def get_hotel_details(city, startDate, endDate, guestQty):
-    # url = "https://best-booking-com-hotel.p.rapidapi.com/booking/best-accommodation"
-    # querystring = {"cityName":city,"countryName":"India"}
-    # headers = {
-    #     "X-RapidAPI-Key": rapid_api_key,
-    #     "X-RapidAPI-Host": "best-booking-com-hotel.p.rapidapi.com"
-    # }
-    # response = requests.get(url, headers=headers, params=querystring)
-
-    # return response.json()
-    data = '{"name":"EastSeven Berlin","link":"https://www.booking.com/hotel/de/eastseven-berlin-hostel-berlin1.de.html?aid=1938431","rating":9.1}'
-    return json.loads(data)
+    url = "https://best-booking-com-hotel.p.rapidapi.com/booking/best-accommodation"
+    querystring = {"cityName":city,"countryName":"India"}
+    headers = {
+        "X-RapidAPI-Key": rapid_api_key,
+        "X-RapidAPI-Host": "best-booking-com-hotel.p.rapidapi.com"
+    }
+    response = requests.get(url, headers=headers, params=querystring)
+    return response.json()
+    # data = '{"name":"EastSeven Berlin","link":"https://www.booking.com/hotel/de/eastseven-berlin-hostel-berlin1.de.html?aid=1938431","rating":9.1}'
+    # return json.loads(data)
 
 
 @textbase.chatbot("health-bot")
@@ -144,11 +143,9 @@ def on_message(message_history: List[Message], state: dict = None):
         startDate = data["trip start date"]
         endDate = data["trip end date"]
         guestQty = data["number of travelers"]
-        print(city, startDate, endDate, guestQty)
         
         # Generating Unique has for each response
         hash = generate_hash(city + startDate + endDate + guestQty)
-        print(hash)
         
         # If the prompt was used before then fetch the Record from Database otherwise create new Record
         try:
