@@ -14,6 +14,7 @@ from typing import List
 # or from environment variable:
 openai.api_key = os.getenv("OPENAI_API_KEY")
 airtable_api_key = os.getenv("AIRTABLE_API_KEY")
+rapid_api_key = os.getenv("RAPID_API_KEY")
 api = Api(airtable_api_key)
 table = api.table("app1NxrJuXvS9wYxm", "travelBotTable")
 
@@ -61,7 +62,7 @@ def get_hotel_details(city, startDate, endDate, guestQty):
     # url = "https://best-booking-com-hotel.p.rapidapi.com/booking/best-accommodation"
     # querystring = {"cityName":city,"countryName":"India"}
     # headers = {
-    #     "X-RapidAPI-Key": "7e9ca42f68mshde0b44bf0dfa4fep1a337fjsndc31d5c2ac6e",
+    #     "X-RapidAPI-Key": rapid_api_key,
     #     "X-RapidAPI-Host": "best-booking-com-hotel.p.rapidapi.com"
     # }
     # response = requests.get(url, headers=headers, params=querystring)
