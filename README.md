@@ -26,7 +26,7 @@ The Travel Bot is a Python application that utilizes the ChatGPT language model 
 - Python 3.6 or later
 - OpenAI GPT-3 API Key (Sign up on the OpenAI website to obtain an API key)
 - Textbase - Textbase is a framework for building chatbots using NLP and ML.
-- Poetry
+- Poetry (you might have to install [Poetry]('https://python-poetry.org/docs/#installing-with-the-official-installer') first).
 
 ### Installation Steps
 
